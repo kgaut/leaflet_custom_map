@@ -1,5 +1,32 @@
 <?php
 
+
+function leaflet_custom_map_menu() {
+  $items = array();
+  $items['admin/structure/custom-maps'] = array(
+    'title' => 'Fond de carte personalisés',
+    'description' => 'Liste des fonds de carte personnalisés',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('leaflet_custom_map_listing_form'),
+    'access arguments' => array('administer custom map'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+function leaflet_custom_map_permission() {
+  $permissions = array (
+    'administer custom map' => array (
+      'title' => t('Administrer les fonds de carte personalisés'),
+    ),
+  );
+  return $permissions;
+}
+
+function leaflet_custom_map_listing_form($form, $form_state) {
+  return $form;
+}
+
 function leaflet_custom_map_preprocess_page(&$vars, $hook) {
   if (true) {
     drupal_add_js([
