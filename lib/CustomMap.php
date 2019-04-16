@@ -17,4 +17,8 @@ class CustomMap extends MyObject {
   public $created;
 
   public $user;
+
+  public static function loadForMap($map) {
+    return self::_load([['map', $map]]);
+  }
 }
