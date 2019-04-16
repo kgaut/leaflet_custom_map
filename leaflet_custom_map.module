@@ -11,6 +11,14 @@ function leaflet_custom_map_menu() {
     'access arguments' => array('administer custom map'),
     'type' => MENU_NORMAL_ITEM,
   );
+  $items['admin/structure/custom-maps/%/delete'] = array(
+    'title' => 'Supprimer un fond de carte',
+    'description' => 'Liste des fonds de carte personnalisés',
+    'page callback' => 'leaflet_custom_map_delete',
+    'page arguments' => [3],
+    'access arguments' => array('administer custom map'),
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -23,8 +31,99 @@ function leaflet_custom_map_permission() {
   return $permissions;
 }
 
+function leaflet_custom_map_delete($cmid) {
+  if($map = new CustomMap(['cmid' => $cmid])) {
+    $map->delete();
+    drupal_set_message('Le fond de carte à été supprimé');
+  }
+  drupal_goto('admin/structure/custom-maps');
+}
+
 function leaflet_custom_map_listing_form($form, $form_state) {
+  $views = views_get_all_views();
+  $views = array_map(function ($a) {
+    return $a->name;
+  }, $views);
+
+  $maps = CustomMap::loadAll();
+
+  $form['new'] = [
+    '#type' => 'fieldset',
+    '#title' => 'Ajouter un nouveau fond de carte',
+  ];
+  $form['new']['views'] = array(
+    '#type' => 'select',
+    '#title' => t('Vue'),
+    '#options' => $views,
+    '#required' => TRUE,
+  );
+  $form['new']['image'] = [
+    '#type' => 'managed_file',
+    '#title' => t('Raster'),
+    '#required' => TRUE,
+    '#upload_location' => 'public://maps/rasters/' . date('Y-m') . '/',
+    '#process' => ['leaflet_custom_map_file_element_process'],
+    '#upload_validators' => [
+      'file_validate_extensions' => ['png jpg gif svg'],
+    ],
+  ];
+  $form['new']['bounds'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Bounds'),
+    '#description' => t('Format : <code>[[53.0, -5.0], [40.58, 19.17]]</code>'),
+    '#required' => TRUE,
+  );
+
+  $form['new']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Ajouter le nouveau fond de carte'),
+  );
+
+  $rows = [];
+  /** @var \CustomMap $map */
+  foreach ($maps as $map) {
+    $u = user_load($map->user);
+    $rows[] = [
+      'id' => $map->cmid,
+      'vue' => $map->map,
+      'creator' => $u->name,
+      'delete' => l('Supprimer', 'admin/structure/custom-maps/' . $map->cmid . '/delete'),
+    ];
+  }
+  $header = ['ID', 'Vue', 'Createur', 'Action'];
+
+  $form['table'] = array(
+    '#theme' => 'table',
+    '#header' => $header,
+    '#rows' => $rows,
+    '#empty' => t('Aucun résultat.')
+  );
+
+
+
   return $form;
+}
+function leaflet_custom_map_listing_form_submit($form, &$form_state) {
+  global $user;
+  $fileObject = file_load($form_state['values']['image']);
+  $fileObject->status = 1;
+  file_usage_add($fileObject, 'file', 'user', $user->uid);
+  file_save($fileObject);
+
+  $map = new CustomMap([
+    'fid' => $fileObject->fid,
+    'map' => $form_state['values']['views'],
+    'bounds' => $form_state['values']['bounds'],
+    'user' => $user->uid,
+  ]);
+  $map->save();
+  drupal_set_message('Le fond de carte à été enregistré');
+}
+
+function leaflet_custom_map_file_element_process($element, &$form_state, $form) {
+  $element = file_managed_file_process($element, $form_state, $form);
+  $element['upload_button']['#access'] = FALSE;
+  return $element;
 }
 
 function leaflet_custom_map_preprocess_page(&$vars, $hook) {
@@ -32,8 +131,8 @@ function leaflet_custom_map_preprocess_page(&$vars, $hook) {
     drupal_add_js([
       'leaflet_custom_map' => [
         'url' => 'https://cdn-images-1.medium.com/max/2000/1*tSyuv3ZRCfsSD5aXB7v8DQ.png',
-        'bounds' => '[[53.0, -5.0], [40.58, 19.17]]'
-      ]
+        'bounds' => '[[53.0, -5.0], [40.58, 19.17]]',
+      ],
     ], 'setting');
 
     drupal_add_js(drupal_get_path('module', 'leaflet_custom_map') . '/leaflet_custom_map.js');

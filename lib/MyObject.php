@@ -188,7 +188,7 @@ abstract class MyObject {
     $query->fields('s', array(static::$db_table_identifier));
     $result = $query->execute();
     while ($row = $result->fetchObject()) {
-      $steps[] = new static(array(static::$db_table_identifier => $row->sid));
+      $steps[] = new static(array(static::$db_table_identifier => $row->{static::$db_table_identifier}));
     }
     return $steps;
   }

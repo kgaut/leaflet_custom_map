@@ -1,6 +1,6 @@
 <?php
 
-function leaflet_custom_map_example_schema() {
+function leaflet_custom_map_schema() {
   $schema['custom_map'] = array(
     'description' => 'Custom Map',
     'fields' => array(
