@@ -1,0 +1,6 @@
+name = Leaflet Custom Map
+description = Apply Custom Map Background on views
+core = 7.x
+
+dependencies[] = leafleat
+dependencies[] = views
