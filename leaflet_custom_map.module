@@ -4,7 +4,7 @@
 function leaflet_custom_map_menu() {
   $items = array();
   $items['admin/structure/custom-maps'] = array(
-    'title' => 'Fonds de carte personalisés',
+    'title' => 'Fonds de carte personnalisés',
     'description' => 'Liste des fonds de carte personnalisés',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('leaflet_custom_map_listing_form'),
