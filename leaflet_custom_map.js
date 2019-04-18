@@ -5,7 +5,7 @@
             var imageUrl = Drupal.settings.leaflet_custom_map.url;
             var imageBounds = JSON.parse(Drupal.settings.leaflet_custom_map.bounds);
 
-            var layer = L.imageOverlay(imageUrl, imageBounds);
+            var layer = L.imageOverlay(imageUrl, imageBounds, {'opacity' : Drupal.settings.leaflet_custom_map.opacity});
             layer.addTo(lMap);
         }
     });

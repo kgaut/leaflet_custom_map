@@ -73,6 +73,12 @@ function leaflet_custom_map_listing_form($form, $form_state) {
     '#description' => t('Format : <code>[[53.0, -5.0], [40.58, 19.17]]</code>'),
     '#required' => TRUE,
   );
+  $form['new']['opacity'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Opacitée'),
+    '#description' => t('Entre 0 et 1, ex : 0.5'),
+    '#required' => TRUE,
+  );
 
   $form['new']['submit'] = array(
     '#type' => 'submit',
@@ -86,11 +92,12 @@ function leaflet_custom_map_listing_form($form, $form_state) {
     $rows[] = [
       'id' => $map->cmid,
       'vue' => $map->map,
+      'opacity' => $map->opacity,
       'creator' => $u->name,
       'delete' => l('Supprimer', 'admin/structure/custom-maps/' . $map->cmid . '/delete'),
     ];
   }
-  $header = ['ID', 'Vue', 'Createur', 'Action'];
+  $header = ['ID', 'Vue', 'Opacitée', 'Createur', 'Action'];
 
   $form['table'] = array(
     '#theme' => 'table',
@@ -107,11 +114,12 @@ function leaflet_custom_map_listing_form_submit($form, &$form_state) {
   $fileObject->status = 1;
   file_usage_add($fileObject, 'file', 'user', $user->uid);
   file_save($fileObject);
-
+  $opacity = str_replace(',', '.', $form_state['values']['opacity']);
   $map = new CustomMap([
     'fid' => $fileObject->fid,
     'map' => $form_state['values']['views'],
     'bounds' => $form_state['values']['bounds'],
+    'opacity' => is_numeric($opacity) ? $opacity : 1,
     'user' => $user->uid,
   ]);
   $map->save();
@@ -129,10 +137,12 @@ function leaflet_custom_map_preprocess_views_view(&$vars) {
   if($map = CustomMap::loadForMap($view->name)) {
     $file = file_load($map->fid);
     $bounds = $map->bounds;
+    $opacity = $map->opacity;
     drupal_add_js([
       'leaflet_custom_map' => [
         'url' => file_create_url($file->uri),
         'bounds' => $bounds,
+        'opacity' => $opacity,
       ],
     ], 'setting');
     drupal_add_js(drupal_get_path('module', 'leaflet_custom_map') . '/leaflet_custom_map.js');

@@ -28,6 +28,12 @@ function leaflet_custom_map_schema() {
         'not null' => TRUE,
         'default' => ''
       ),
+      'opacity'  => array(
+        'mysql_type' => 'double',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 1
+      ),
       'user' => array(
         'description' => 'Clé étrangère vers le uid du modificateur',
         'type' => 'int',
