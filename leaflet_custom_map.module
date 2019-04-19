@@ -19,6 +19,14 @@ function leaflet_custom_map_menu() {
     'access arguments' => array('administer custom map'),
     'type' => MENU_CALLBACK,
   );
+  $items['admin/structure/custom-maps/%/edit'] = array(
+    'title' => 'Supprimer un fond de carte',
+    'description' => 'Liste des fonds de carte personnalisés',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('leaflet_custom_map_listing_form', 3),
+    'access arguments' => array('administer custom map'),
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -46,7 +54,7 @@ function leaflet_custom_map_listing_form($form, $form_state) {
   }, $views);
 
   $maps = CustomMap::loadAll();
-
+  dpm($form_state);
   $form['new'] = [
     '#type' => 'fieldset',
     '#title' => 'Ajouter un nouveau fond de carte',
@@ -73,6 +81,7 @@ function leaflet_custom_map_listing_form($form, $form_state) {
     '#description' => t('Format : <code>[[53.0, -5.0], [40.58, 19.17]]</code>'),
     '#required' => TRUE,
   );
+
   $form['new']['opacity'] = array(
     '#type' => 'textfield',
     '#title' => t('Opacitée'),
@@ -94,6 +103,7 @@ function leaflet_custom_map_listing_form($form, $form_state) {
       'vue' => $map->map,
       'opacity' => $map->opacity,
       'creator' => $u->name,
+      'edit' => l('Supprimer', 'admin/structure/custom-maps/' . $map->cmid . '/edit'),
       'delete' => l('Supprimer', 'admin/structure/custom-maps/' . $map->cmid . '/delete'),
     ];
   }
