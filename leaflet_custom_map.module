@@ -103,11 +103,11 @@ function leaflet_custom_map_listing_form($form, $form_state) {
       'vue' => $map->map,
       'opacity' => $map->opacity,
       'creator' => $u->name,
-      'edit' => l('Supprimer', 'admin/structure/custom-maps/' . $map->cmid . '/edit'),
+      'edit' => l('Modifier', 'admin/structure/custom-maps/' . $map->cmid . '/edit'),
       'delete' => l('Supprimer', 'admin/structure/custom-maps/' . $map->cmid . '/delete'),
     ];
   }
-  $header = ['ID', 'Vue', 'Opacitée', 'Createur', 'Action'];
+  $header = ['ID', 'Vue', 'Opacitée', 'Createur', 'Actions', '&nbsp;'];
 
   $form['table'] = array(
     '#theme' => 'table',
