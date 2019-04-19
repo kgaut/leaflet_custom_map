@@ -20,7 +20,7 @@ function leaflet_custom_map_menu() {
     'type' => MENU_CALLBACK,
   );
   $items['admin/structure/custom-maps/%/edit'] = array(
-    'title' => 'Supprimer un fond de carte',
+    'title' => 'Modifier un fond de carte',
     'description' => 'Liste des fonds de carte personnalisés',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('leaflet_custom_map_listing_form', 3),
@@ -52,18 +52,32 @@ function leaflet_custom_map_listing_form($form, $form_state) {
   $views = array_map(function ($a) {
     return $a->name;
   }, $views);
-
   $maps = CustomMap::loadAll();
-  dpm($form_state);
-  $form['new'] = [
-    '#type' => 'fieldset',
-    '#title' => 'Ajouter un nouveau fond de carte',
-  ];
+  if (is_numeric($form_state['build_info']['args'][0])) {
+    $mode = 'EDIT';
+    $map = new CustomMap(['cmid' => $form_state['build_info']['args'][0]]);
+    $form['cmid'] = [
+      '#type' => 'value',
+      '#value' => $map->cmid,
+    ];
+    $form['new'] = [
+      '#type' => 'fieldset',
+      '#title' => 'Modifier le fond de carte',
+    ];
+  }
+  else {
+    $mode = 'NEW';
+    $form['new'] = [
+      '#type' => 'fieldset',
+      '#title' => 'Ajouter un nouveau fond de carte',
+    ];
+  }
   $form['new']['views'] = array(
     '#type' => 'select',
     '#title' => t('Vue'),
     '#options' => $views,
     '#required' => TRUE,
+    '#default_value' => isset($map) ? $map->map : NULL,
   );
   $form['new']['image'] = [
     '#type' => 'managed_file',
@@ -74,12 +88,14 @@ function leaflet_custom_map_listing_form($form, $form_state) {
     '#upload_validators' => [
       'file_validate_extensions' => ['png jpg gif svg'],
     ],
+    '#default_value' => isset($map) ? $map->fid : NULL,
   ];
   $form['new']['bounds'] = array(
     '#type' => 'textfield',
     '#title' => t('Bounds'),
     '#description' => t('Format : <code>[[53.0, -5.0], [40.58, 19.17]]</code>'),
     '#required' => TRUE,
+    '#default_value' => isset($map) ? $map->bounds : NULL,
   );
 
   $form['new']['opacity'] = array(
@@ -87,11 +103,12 @@ function leaflet_custom_map_listing_form($form, $form_state) {
     '#title' => t('Opacitée'),
     '#description' => t('Entre 0 et 1, ex : 0.5'),
     '#required' => TRUE,
+    '#default_value' => isset($map) ? $map->opacity : NULL,
   );
 
   $form['new']['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Ajouter le nouveau fond de carte'),
+    '#value' => $mode === 'NEW' ? t('Ajouter le nouveau fond de carte') : t('Modifier le fond de carte'),
   );
 
   $rows = [];
@@ -126,6 +143,7 @@ function leaflet_custom_map_listing_form_submit($form, &$form_state) {
   file_save($fileObject);
   $opacity = str_replace(',', '.', $form_state['values']['opacity']);
   $map = new CustomMap([
+    'cmid' => isset($form_state['values']['cmid']) ? $form_state['values']['cmid'] : NULL,
     'fid' => $fileObject->fid,
     'map' => $form_state['values']['views'],
     'bounds' => $form_state['values']['bounds'],
@@ -134,6 +152,7 @@ function leaflet_custom_map_listing_form_submit($form, &$form_state) {
   ]);
   $map->save();
   drupal_set_message('Le fond de carte à été enregistré');
+  drupal_goto('admin/structure/custom-maps');
 }
 
 function leaflet_custom_map_file_element_process($element, &$form_state, $form) {
