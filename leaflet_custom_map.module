@@ -53,7 +53,7 @@ function leaflet_custom_map_listing_form($form, $form_state) {
     return $a->name;
   }, $views);
   $maps = CustomMap::loadAll();
-  if (is_numeric($form_state['build_info']['args'][0])) {
+  if (isset($form_state['build_info']['args'][0]) && is_numeric($form_state['build_info']['args'][0])) {
     $mode = 'EDIT';
     $map = new CustomMap(['cmid' => $form_state['build_info']['args'][0]]);
     $form['cmid'] = [
