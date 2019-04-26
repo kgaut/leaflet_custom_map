@@ -72,6 +72,18 @@ function leaflet_custom_map_listing_form($form, $form_state) {
       '#title' => 'Ajouter un nouveau fond de carte',
     ];
   }
+  $form['new']['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Nom du raster'),
+    '#required' => TRUE,
+    '#default_value' => isset($map) ? $map->name : '',
+  );
+  $form['new']['status'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Raster visible'),
+    '#default_value' => isset($map) ? $map->status : TRUE,
+  );
+
   $form['new']['views'] = array(
     '#type' => 'select',
     '#title' => t('Vue'),
@@ -110,13 +122,20 @@ function leaflet_custom_map_listing_form($form, $form_state) {
     '#type' => 'submit',
     '#value' => $mode === 'NEW' ? t('Ajouter le nouveau fond de carte') : t('Modifier le fond de carte'),
   );
+  if( $mode === 'EDIT') {
+    $form['new']['cancel'] = array(
+      '#markup' => l('Annuler', 'admin/structure/custom-maps')
+    );
 
+  }
   $rows = [];
   /** @var \CustomMap $map */
   foreach ($maps as $map) {
     $u = user_load($map->user);
     $rows[] = [
       'id' => $map->cmid,
+      'name' => $map->name,
+      'status' => $map->status ? '✓' : '✗',
       'vue' => $map->map,
       'opacity' => $map->opacity,
       'creator' => $u->name,
@@ -124,7 +143,7 @@ function leaflet_custom_map_listing_form($form, $form_state) {
       'delete' => l('Supprimer', 'admin/structure/custom-maps/' . $map->cmid . '/delete'),
     ];
   }
-  $header = ['ID', 'Vue', 'Opacitée', 'Createur', 'Actions', '&nbsp;'];
+  $header = ['ID', 'Nom', 'Visible', 'Vue', 'Opacitée', 'Createur', 'Actions', '&nbsp;'];
 
   $form['table'] = array(
     '#theme' => 'table',
@@ -147,6 +166,8 @@ function leaflet_custom_map_listing_form_submit($form, &$form_state) {
     'fid' => $fileObject->fid,
     'map' => $form_state['values']['views'],
     'bounds' => $form_state['values']['bounds'],
+    'name' => $form_state['values']['name'],
+    'status' => $form_state['values']['status'],
     'opacity' => is_numeric($opacity) ? $opacity : 1,
     'user' => $user->uid,
   ]);

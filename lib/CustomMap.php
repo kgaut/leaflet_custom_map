@@ -12,6 +12,10 @@ class CustomMap extends MyObject {
 
   public $map;
 
+  public $name;
+
+  public $status;
+
   public $bounds;
 
   public $opacity;

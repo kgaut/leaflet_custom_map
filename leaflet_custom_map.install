@@ -22,6 +22,12 @@ function leaflet_custom_map_schema() {
         'not null' => TRUE,
         'default' => ''
       ),
+      'name'  => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => ''
+      ),
       'bounds'  => array(
         'type' => 'varchar',
         'length' => 255,
@@ -39,6 +45,11 @@ function leaflet_custom_map_schema() {
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
+      ),
+      'status' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 1,
       ),
       'created' => array(
         'description' => 'Date de creation de l\'enregistrement' ,
