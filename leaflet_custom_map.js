@@ -1,12 +1,14 @@
 (function ($, Drupal, L) {
 
     jQuery(document).bind('leaflet.map', function(event, map, lMap) {
-        if(Drupal.settings.leaflet_custom_map.url !== null) {
-            var imageUrl = Drupal.settings.leaflet_custom_map.url;
-            var imageBounds = JSON.parse(Drupal.settings.leaflet_custom_map.bounds);
+        if(Drupal.settings.leaflet_custom_maps.length > 0) {
+            Drupal.settings.leaflet_custom_maps.forEach(function(element) {
+                var imageUrl = element.url;
+                var imageBounds = JSON.parse(element.bounds);
 
-            var layer = L.imageOverlay(imageUrl, imageBounds, {'opacity' : Drupal.settings.leaflet_custom_map.opacity});
-            layer.addTo(lMap);
+                var layer = L.imageOverlay(imageUrl, imageBounds, {'opacity' : element.opacity});
+                layer.addTo(lMap);
+            });
         }
     });
 
