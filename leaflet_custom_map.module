@@ -91,6 +91,13 @@ function leaflet_custom_map_listing_form($form, $form_state) {
     '#required' => TRUE,
     '#default_value' => isset($map) ? $map->map : NULL,
   );
+  $form['new']['weight'] = array(
+    '#type' => 'select',
+    '#title' => t('Ordre'),
+    '#options' => [0,1,2,3,4,5,6,7,8,9,10],
+    '#required' => TRUE,
+    '#default_value' => isset($map) ? $map->weight : 0,
+  );
   $form['new']['image'] = [
     '#type' => 'managed_file',
     '#title' => t('Raster'),
@@ -136,6 +143,7 @@ function leaflet_custom_map_listing_form($form, $form_state) {
       'id' => $map->cmid,
       'name' => $map->name,
       'status' => $map->status ? '✓' : '✗',
+      'weight' => $map->weight,
       'vue' => $map->map,
       'opacity' => $map->opacity,
       'creator' => $u->name,
@@ -143,7 +151,7 @@ function leaflet_custom_map_listing_form($form, $form_state) {
       'delete' => l('Supprimer', 'admin/structure/custom-maps/' . $map->cmid . '/delete'),
     ];
   }
-  $header = ['ID', 'Nom', 'Visible', 'Vue', 'Opacitée', 'Createur', 'Actions', '&nbsp;'];
+  $header = ['ID', 'Nom', 'Visible', 'Ordre', 'Vue', 'Opacitée', 'Createur', 'Actions', '&nbsp;'];
 
   $form['table'] = array(
     '#theme' => 'table',
@@ -168,6 +176,7 @@ function leaflet_custom_map_listing_form_submit($form, &$form_state) {
     'bounds' => $form_state['values']['bounds'],
     'name' => $form_state['values']['name'],
     'status' => $form_state['values']['status'],
+    'weight' => $form_state['values']['weight'],
     'opacity' => is_numeric($opacity) ? $opacity : 1,
     'user' => $user->uid,
   ]);

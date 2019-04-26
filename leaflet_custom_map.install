@@ -51,6 +51,11 @@ function leaflet_custom_map_schema() {
         'not null' => TRUE,
         'default' => 1,
       ),
+      'weight' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
       'created' => array(
         'description' => 'Date de creation de l\'enregistrement' ,
         'type' => 'int',
