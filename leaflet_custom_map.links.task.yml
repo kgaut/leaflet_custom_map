@@ -16,3 +16,8 @@ entity.map_background.collection:
   route_name: entity.map_background.collection
   base_route: system.admin_content
   weight: 10
+
+map_background.settings_tab:
+  route_name: map_background.settings
+  title: 'Settings'
+  base_route: entity.map_background.collection

@@ -1,0 +1,53 @@
+uuid: e2d5d1f7-1381-4c5a-953b-5f8a62322b42
+langcode: fr
+status: true
+dependencies:
+  config:
+    - image.style.thumbnail
+  module:
+    - image
+    - leaflet_custom_map
+id: map_background.map_background.default
+targetEntityType: map_background
+bundle: map_background
+mode: default
+content:
+  bounds:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  image:
+    type: image_image
+    weight: 1
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  opacity:
+    type: number
+    weight: 4
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  views:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  weight:
+    type: number
+    weight: 2
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  uid: true

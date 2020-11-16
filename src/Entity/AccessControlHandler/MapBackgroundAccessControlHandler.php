@@ -19,13 +19,9 @@ class MapBackgroundAccessControlHandler extends EntityAccessControlHandler {
 
     switch ($operation) {
       case 'view':
-        return AccessResult::allowedIfHasPermission($account, 'view map background');
-
       case 'update':
-        return AccessResult::allowedIfHasPermissions($account, ['edit map background', 'administer map background'], 'OR');
-
       case 'delete':
-        return AccessResult::allowedIfHasPermissions($account, ['delete map background', 'administer map background'], 'OR');
+        return AccessResult::allowedIfHasPermission($account, 'crud map background');
 
       default:
         // No opinion.
@@ -38,7 +34,7 @@ class MapBackgroundAccessControlHandler extends EntityAccessControlHandler {
    * {@inheritdoc}
    */
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
-    return AccessResult::allowedIfHasPermissions($account, ['create map background', 'administer map background'], 'OR');
+    return AccessResult::allowedIfHasPermission($account, 'crud map background');
   }
 
 }

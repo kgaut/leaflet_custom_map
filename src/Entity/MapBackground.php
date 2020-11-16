@@ -28,21 +28,22 @@ use Drupal\user\UserInterface;
  *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm"
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
+ *       "html" = "Drupal\leaflet_custom_map\Entity\HtmlRouteProvider\MapBackgroundHtmlRouteProvider",
  *     }
  *   },
  *   base_table = "leaflet_map_background",
- *   admin_permission = "access map background overview",
+ *   admin_permission = "configure map background",
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "id",
  *   },
  *   links = {
- *     "add-form" = "/admin/content/map-background/add",
- *     "edit-form" = "/admin/content/map-background/{map_background}/edit",
- *     "delete-form" = "/admin/content/map-background/{map_background}/delete",
- *     "collection" = "/admin/content/map-background"
+ *     "add-form" = "/admin/map-background/add",
+ *     "edit-form" = "/admin/map-background/{map_background}/edit",
+ *     "delete-form" = "/admin/map-background/{map_background}/delete",
+ *     "collection" = "/admin/map-background"
  *   },
+ *   field_ui_base_route = "entity.map_background.collection"
  * )
  */
 class MapBackground extends ContentEntityBase implements MapBackgroundInterface {
@@ -139,8 +140,6 @@ class MapBackground extends ContentEntityBase implements MapBackgroundInterface 
       ->setSetting('unsigned', TRUE)
       ->setSetting('min', 0)
       ->setSetting('max', 10)
-      ->setSetting('prefix', '$')
-      ->setSetting('suffix', '€ TTC')
       ->setDefaultValue(5)
       ->setRequired(TRUE)
       ->setDisplayConfigurable('form', TRUE);
@@ -155,7 +154,7 @@ class MapBackground extends ContentEntityBase implements MapBackgroundInterface 
       ->setDisplayConfigurable('form', TRUE);
 
     $fields['opacity'] = BaseFieldDefinition::create('decimal')
-      ->setLabel(t('Prix'))
+      ->setLabel(t('Opacitée'))
       ->setSetting('unsigned', TRUE)
       ->setSetting('scale', 1)
       ->setSetting('min', 0)

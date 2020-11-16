@@ -1,0 +1,12 @@
+entity.map_background.collection:
+  title: "Fonds de carte personnalisés"
+  route_name: entity.map_background.collection
+  base_route: system.admin_content
+  parent: system.admin_content
+  weight: 10
+
+nks.admin.tutoriels.settings:
+  title: 'Configuration fonds de carte'
+  description: 'Configure Tutoriel entities'
+  route_name: map_background.settings
+  parent: entity.map_background.collection
