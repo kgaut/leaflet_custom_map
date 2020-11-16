@@ -1,5 +1,0 @@
-entity.map_background.overview:
-  title: map_backgrounds
-  parent: system.admin_structure
-  description: 'List of map_backgrounds to extend site functionality.'
-  route_name: entity.map_background.collection

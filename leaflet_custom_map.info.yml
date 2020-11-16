@@ -4,4 +4,5 @@ description: Apply Custom Map Background on a view
 package: leaflet
 core: 8.x
 core_version_requirement: ^8 || ^9
-configure: entity.map_background.collection
+dependencies:
+  - leaflet
