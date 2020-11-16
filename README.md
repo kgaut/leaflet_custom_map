@@ -6,11 +6,11 @@ Ce module permet d'insérer des fonds de carte personnalisés sur les vues _Leaf
 
 # Installation
 
-```composer require kgaut/leaflet_custom_map```
+`composer require kgaut/leaflet_custom_map`
 
 Installation du module via l'interface d'administration ou par drush :
 
-```drush en leaflet_custom_map```
+`drush en leaflet_custom_map`
 
 # Gestion des fonds de carte
 
