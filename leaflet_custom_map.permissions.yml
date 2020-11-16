@@ -1,4 +1,10 @@
-administer leaflet_custom_map configuration:
-  title: 'Administer leaflet_custom_map configuration'
-  description: 'Optional description.'
-  restrict access: true
+access map background overview:
+  title: 'Access map background overview page'
+delete map background:
+  title: Delete map background
+create map background:
+  title: Create map background
+view map background:
+  title: View map background
+edit map background:
+  title: Edit map background
