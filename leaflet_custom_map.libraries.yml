@@ -1,0 +1,4 @@
+views-integration :
+    version: VERSION
+    js :
+      javascript/leaflet_custom_map.js : {}
