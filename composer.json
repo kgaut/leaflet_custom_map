@@ -1,7 +1,7 @@
 {
     "name": "kgaut/leaflet_custom_map",
     "description": "Apply Custom Map Background on a view",
-    "homepage": "https://gitlab.kgaut.net/kgaut/leaflet_custom_map",
+    "homepage": "https://github.com/kgaut/leaflet_custom_map",
     "type":"drupal-module",
     "authors": [
         {
@@ -12,8 +12,8 @@
         }
     ],
     "support": {
-        "issues": "https://gitlab.kgaut.net/kgaut/leaflet_custom_map/-/issues",
-   	    "source": "https://gitlab.kgaut.net/kgaut/leaflet_custom_map"
+        "issues": "https://github.com/kgaut/leaflet_custom_map/issues",
+   	    "source": "https://github.com/kgaut/leaflet_custom_map"
     },
     "license": "GPL-2.0+",
     "minimum-stability": "dev",
