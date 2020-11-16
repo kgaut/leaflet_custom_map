@@ -17,18 +17,16 @@ class MapBackgroundForm extends ContentEntityForm {
 
     $entity = $this->getEntity();
     $result = $entity->save();
-    $link = $entity->toLink($this->t('View'))->toRenderable();
 
     $message_arguments = ['%label' => $this->entity->label()];
-    $logger_arguments = $message_arguments + ['link' => render($link)];
 
     if ($result == SAVED_NEW) {
       $this->messenger()->addStatus($this->t('New map background %label has been created.', $message_arguments));
-      $this->logger('leaflet_custom_map')->notice('Created new map background %label', $logger_arguments);
+      $this->logger('leaflet_custom_map')->notice('Created new map background %label');
     }
     else {
       $this->messenger()->addStatus($this->t('The map background %label has been updated.', $message_arguments));
-      $this->logger('leaflet_custom_map')->notice('Updated new map background %label.', $logger_arguments);
+      $this->logger('leaflet_custom_map')->notice('Updated new map background %label.');
     }
 
     $form_state->setRedirect('entity.map_background.collection');
