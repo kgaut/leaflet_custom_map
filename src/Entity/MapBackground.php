@@ -15,8 +15,8 @@ use Drupal\user\UserInterface;
  *
  * @ContentEntityType(
  *   id = "map_background",
- *   label = @Translation("Map Background"),
- *   label_collection = @Translation("Map Backgrounds"),
+ *   label = @Translation("Fond de carte personnalisé"),
+ *   label_collection = @Translation("Fonds de carte personnalisés"),
  *   handlers = {
  *     "view_builder" = "Drupal\leaflet_custom_map\Entity\ViewBuilder\MapBackgroundViewBuilder",
  *     "list_builder" = "Drupal\leaflet_custom_map\Entity\ListBuilder\MapBackgroundListBuilder",
@@ -25,7 +25,7 @@ use Drupal\user\UserInterface;
  *     "form" = {
  *       "add" = "Drupal\leaflet_custom_map\Form\MapBackgroundForm",
  *       "edit" = "Drupal\leaflet_custom_map\Form\MapBackgroundForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm"
+ *       "delete" = "Drupal\leaflet_custom_map\Form\MapBackgroundDeleteForm",
  *     },
  *     "route_provider" = {
  *       "html" = "Drupal\leaflet_custom_map\Entity\HtmlRouteProvider\MapBackgroundHtmlRouteProvider",
@@ -81,6 +81,25 @@ class MapBackground extends ContentEntityBase implements MapBackgroundInterface 
    */
   public function getOwner() {
     return $this->get('uid')->entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getView() {
+    return $this->get('views')->entity;
+  }
+
+  public function getOpacity() {
+    return $this->get('opacity')->value;
+  }
+
+  public function getBounds() {
+    return $this->get('bounds')->value;
+  }
+
+  public function getImage() {
+    return $this->get('image')->entity;
   }
 
   /**

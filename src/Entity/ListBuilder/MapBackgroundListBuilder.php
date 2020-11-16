@@ -70,7 +70,7 @@ class MapBackgroundListBuilder extends EntityListBuilder {
       ->count()
       ->execute();
 
-    $build['summary']['#markup'] = $this->t('Total map backgrounds: @total', ['@total' => $total]);
+    $build['summary']['#markup'] = $this->t('Nombre de fonds de carte personnalisés : @total', ['@total' => $total]);
     return $build;
   }
 
@@ -78,7 +78,11 @@ class MapBackgroundListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('ID');
+    $header['id'] = 'ID';
+    $header['image'] = $this->t('background');
+    $header['vue'] = $this->t('Vue');
+    $header['opacity'] = $this->t('Opacité');
+    $header['bonds'] = $this->t('Bounds');
     $header['uid'] = $this->t('Author');
     $header['created'] = $this->t('Created');
     $header['changed'] = $this->t('Updated');
@@ -89,8 +93,18 @@ class MapBackgroundListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\leaflet_custom_map\MapBackgroundInterface */
-    $row['id'] = $entity->link();
+    /* @var $entity \Drupal\leaflet_custom_map\Entity\MapBackground */
+    $row['id'] = $entity->id();
+
+    $logo = [
+      '#theme' => 'image_style',
+      '#style_name' => 'thumbnail',
+      '#uri' => $entity->getImage()->getFileUri(),
+    ];
+    $row['image'] = ['data' => $logo];
+    $row['vue'] = $entity->getView()->label();
+    $row['opacity'] = $entity->getOpacity();
+    $row['bounds'] = $entity->getBounds();
     $row['uid']['data'] = [
       '#theme' => 'username',
       '#account' => $entity->getOwner(),

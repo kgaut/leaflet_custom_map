@@ -1,5 +1,5 @@
 map_background.add_form:
   route_name: entity.map_background.add_form
-  title: 'Add map background'
+  title: 'Ajouter un fond de carte personnalisé'
   appears_on:
     - entity.map_background.collection

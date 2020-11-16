@@ -31,7 +31,7 @@ class MapBackgroundForm extends ContentEntityForm {
       $this->logger('leaflet_custom_map')->notice('Updated new map background %label.', $logger_arguments);
     }
 
-    $form_state->setRedirect('entity.map_background.canonical', ['map_background' => $entity->id()]);
+    $form_state->setRedirect('entity.map_background.collection');
   }
 
 }
