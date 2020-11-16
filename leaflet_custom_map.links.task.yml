@@ -1,0 +1,18 @@
+entity.map_background.view:
+  title: View
+  route_name: entity.map_background.canonical
+  base_route: entity.map_background.canonical
+entity.map_background.edit_form:
+  title: Edit
+  route_name: entity.map_background.edit_form
+  base_route: entity.map_background.canonical
+entity.map_background.delete_form:
+  title: Delete
+  route_name: entity.map_background.delete_form
+  base_route: entity.map_background.canonical
+  weight: 10
+entity.map_background.collection:
+  title: Map Background
+  route_name: entity.map_background.collection
+  base_route: system.admin_content
+  weight: 10
