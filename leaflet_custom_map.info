@@ -1,9 +1,0 @@
-name = Leaflet Custom Map
-description = Apply Custom Map Background on views
-core = 7.x
-
-dependencies[] = leaflet
-dependencies[] = views
-
-files[] = lib/MyObject.php
-files[] = lib/CustomMap.php
