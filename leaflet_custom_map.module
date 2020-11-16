@@ -27,6 +27,5 @@ function leaflet_custom_map_preprocess_views_view(&$variables) {
 
     $variables['#attached']['library'][] = 'leaflet_custom_map/views-integration';
     $variables['#attached']['drupalSettings']['leaflet_custom_map']['maps'] = $mapsArray;
-    ddm($mapsArray);
   }
 }
