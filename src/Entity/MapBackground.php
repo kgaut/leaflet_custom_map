@@ -62,6 +62,16 @@ class MapBackground extends ContentEntityBase implements MapBackgroundInterface 
   }
 
   /**
+   * @param $view_name
+   *
+   * @return \Drupal\leaflet_custom_map\Entity\MapBackground[]|false
+   */
+  public static function loadForView($view_name) {
+    $entities = \Drupal::entityTypeManager()->getStorage('map_background')->loadByProperties(['views' => $view_name]);
+    return $entities ? $entities : FALSE;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getCreatedTime() {

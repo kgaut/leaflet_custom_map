@@ -8,3 +8,25 @@
  * This file is no longer required in Drupal 8.
  * @see https://www.drupal.org/node/2217931
  */
+function leaflet_custom_map_preprocess_views_view(&$variables) {
+  /** @var \Drupal\views\Entity\View $view */
+  $view = $variables['view'];
+  if ($customMapBackground = \Drupal\leaflet_custom_map\Entity\MapBackground::loadForView($view->id())) {
+    $mapsArray = [];
+    foreach ($customMapBackground as $map) {
+      /** @var \Drupal\file\Entity\File $file */
+      $file = $map->getImage();
+      $bounds = $map->getBounds();
+      $opacity = $map->getOpacity();
+      $mapsArray[] = [
+        'url' => $file->url('canonical', ['absolute' => TRUE]),
+        'bounds' => $bounds,
+        'opacity' => $opacity,
+      ];
+    }
+
+    $variables['#attached']['library'][] = 'leaflet_custom_map/views-integration';
+    $variables['#attached']['drupalSettings']['leaflet_custom_map']['maps'] = $mapsArray;
+    ddm($mapsArray);
+  }
+}
