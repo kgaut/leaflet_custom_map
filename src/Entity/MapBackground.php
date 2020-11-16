@@ -155,7 +155,7 @@ class MapBackground extends ContentEntityBase implements MapBackgroundInterface 
 
     $fields['image'] = BaseFieldDefinition::create('image')
       ->setLabel(t('Raster'))
-      ->setSetting('file_directory', 'public://maps/rasters/' )
+      ->setSetting('file_directory', 'maps/rasters/' . date('U') )
       ->setSetting('file_extensions', 'png jpg jpeg svg')
       ->setSetting('title_field', FALSE)
       ->setSetting('title_field_required', FALSE)
