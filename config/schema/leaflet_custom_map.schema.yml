@@ -1,0 +1,14 @@
+leaflet_custom_map.map_background.*:
+  type: config_entity
+  label: map_background
+  mapping:
+    id:
+      type: string
+      label: ID
+    label:
+      type: label
+      label: Label
+    uuid:
+      type: string
+    description:
+      type: string

@@ -1,0 +1,5 @@
+entity.map_background.add_form:
+  route_name: 'entity.map_background.add_form'
+  title: 'Add map_background'
+  appears_on:
+    - entity.map_background.collection
