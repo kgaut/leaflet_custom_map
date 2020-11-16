@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\leaflet_custom_map;
+namespace Drupal\leaflet_custom_map\Entity\AccessControlHandler;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityAccessControlHandler;

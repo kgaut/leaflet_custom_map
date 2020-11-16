@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\leaflet_custom_map;
+namespace Drupal\leaflet_custom_map\Entity\ListBuilder;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;

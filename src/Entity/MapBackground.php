@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\leaflet_custom_map\MapBackgroundInterface;
+use Drupal\leaflet_custom_map\Entity\MapBackgroundInterface;
 use Drupal\user\UserInterface;
 
 /**
@@ -18,10 +18,10 @@ use Drupal\user\UserInterface;
  *   label = @Translation("Map Background"),
  *   label_collection = @Translation("Map Backgrounds"),
  *   handlers = {
- *     "view_builder" = "Drupal\leaflet_custom_map\MapBackgroundViewBuilder",
- *     "list_builder" = "Drupal\leaflet_custom_map\MapBackgroundListBuilder",
+ *     "view_builder" = "Drupal\leaflet_custom_map\Entity\ViewBuilder\MapBackgroundViewBuilder",
+ *     "list_builder" = "Drupal\leaflet_custom_map\Entity\ListBuilder\MapBackgroundListBuilder",
  *     "views_data" = "Drupal\views\EntityViewsData",
- *     "access" = "Drupal\leaflet_custom_map\MapBackgroundAccessControlHandler",
+ *     "access" = "Drupal\leaflet_custom_map\Entity\AccessControlHandler\MapBackgroundAccessControlHandler",
  *     "form" = {
  *       "add" = "Drupal\leaflet_custom_map\Form\MapBackgroundForm",
  *       "edit" = "Drupal\leaflet_custom_map\Form\MapBackgroundForm",
@@ -31,7 +31,7 @@ use Drupal\user\UserInterface;
  *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
  *     }
  *   },
- *   base_table = "map_background",
+ *   base_table = "leaflet_map_background",
  *   admin_permission = "access map background overview",
  *   entity_keys = {
  *     "id" = "id",
@@ -117,6 +117,12 @@ class MapBackground extends ContentEntityBase implements MapBackgroundInterface 
       ->setSetting('target_type', 'user')
       ->setDisplayConfigurable('form', TRUE);
 
+    $fields['views'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Vue'))
+      ->setSetting('target_type', 'view')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
     $fields['image'] = BaseFieldDefinition::create('image')
       ->setLabel(t('Raster'))
       ->setSetting('file_directory', 'public://maps/rasters/' )
@@ -165,8 +171,7 @@ class MapBackground extends ContentEntityBase implements MapBackgroundInterface 
       ->setDisplayConfigurable('form', TRUE);
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
-      ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the map background was last edited.'));
+      ->setLabel(t('Changed'));
 
     return $fields;
   }

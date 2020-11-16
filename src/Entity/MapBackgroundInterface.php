@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\leaflet_custom_map;
+namespace Drupal\leaflet_custom_map\Entity;
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\user\EntityOwnerInterface;
